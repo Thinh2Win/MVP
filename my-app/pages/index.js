@@ -4,7 +4,7 @@ import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import React, {useState, useEffect} from 'react'
 
-export default function Home() {
+export default function Home({ lastDrink }) {
 
   const [client, setClient] = useState('');
   const [drink, setDrink] = useState('');
@@ -13,7 +13,7 @@ export default function Home() {
     if (e.key === 'Enter') {
       localStorage.setItem('client', `${e.target.value}`);
       setClient(e.target.value);
-     fetch('http://localhost:3000/api/hello', {
+      fetch('http://localhost:3000/api/index/client', {
         method: 'POST',
         body: JSON.stringify({client: `${e.target.value}`}),
         headers: {
@@ -28,8 +28,15 @@ export default function Home() {
       })
     }
   }
+
   useEffect(() => {
     localStorage.getItem('client') ? (setClient(localStorage.getItem('client'))) : null;
+  }, [client])
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/api/index/drink?client=${client}`)
+      .then(res => res.json())
+      .then(data => data.length ? setDrink(data[0].lastDrink) : null)
   }, [client])
 
   return (
@@ -44,6 +51,7 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to Happy Hour
         </h1>
+
         {client ? <p className={styles.description}>Hello {client}, how can I help you</p> : (
           <p className={styles.description}>
             To whom am I speaking to? <input

@@ -52,3 +52,16 @@ module.exports.incVisits = (clientName) => {
   return Clients.updateOne({name: clientName}, {$inc:{visits: 1}});
 }
 // incVisits('Tin').then(res=>console.log(res))
+
+module.exports.saveDrink = (clientName, drink) => {
+  return Clients.updateOne(
+    {name: clientName},
+    {$set: {lastDrink: drink}}
+  )
+}
+// saveDrink('Lee', 'AMF').then(res => console.log(res));
+
+module.exports.getDrink = (clientName) => {
+  return Clients.find({name: clientName}, {lastDrink:1,_id:0});
+}
+// getDrink('Jin').then(res => console.log(res))

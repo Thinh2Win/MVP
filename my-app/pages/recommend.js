@@ -4,6 +4,32 @@ import Random from './components/random.js'
 
 export default function Recommend({ randomDrink }) {
   const [isHidden, setIsHidden] = useState(true);
+  const [client, setClient] = useState('');
+
+  useEffect(() => {
+    localStorage.getItem('client') ? (setClient(localStorage.getItem('client'))) : null;
+  }, [client])
+  useEffect(() => {
+    let body = {
+      client,
+      lastDrink: randomDrink.strDrink
+    }
+    client ? (
+      fetch('http://localhost:3000/api/index/drink', {
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    ) : null;
+  }, [client, randomDrink])
 
   setTimeout(() => setIsHidden(false), 2500);
 
