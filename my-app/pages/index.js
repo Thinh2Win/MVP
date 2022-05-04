@@ -1,11 +1,13 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import React, {useState, useEffect} from 'react'
 
 export default function Home() {
 
   const [client, setClient] = useState('');
+  const [drink, setDrink] = useState('');
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -57,10 +59,12 @@ export default function Home() {
             <p>Find in-depth information about Next.js features and API.</p>
           </a>
 
-          <a href="/recommend" className={styles.card}>
+        <Link href="/recommend">
+          <a className={styles.card}>
             <h2>Suggestion &rarr;</h2>
             <p>Here is what I recommend</p>
           </a>
+        </Link>
 
           <a
             href="https://github.com/vercel/next.js/tree/canary/examples"

@@ -21,10 +21,10 @@ let clientSchema = mongoose.Schema({
   visits: Number
 });
 
-let Clients = mongoose.model('Clients', clientSchema);
+const Clients = mongoose.models.Clients || mongoose.model('Clients', clientSchema);
 
 // Helper Functions
-let createClient = (clientName) => {
+module.exports.createClient = (clientName) => {
   return new Clients({
     name: clientName,
     lastDrink: '',
@@ -35,12 +35,12 @@ let createClient = (clientName) => {
 }
 // createClient('Tin').then(res => console.log(res))
 
-let getClient = (clientName) => {
+module.exports.getClient = (clientName) => {
   return Clients.find({name: clientName})
 }
 // getClient('Jin').then((data) => console.log(data[0]));
 
-let blackListDrink = (clientName, drink) => {
+module.exports.blackListDrink = (clientName, drink) => {
   return Clients.updateOne(
     { name: clientName},
     { $push: {blackList: drink}}
@@ -48,9 +48,7 @@ let blackListDrink = (clientName, drink) => {
 }
 // blackListDrink('Tin', 'beer').then(res => console.log(res));
 
-let incVisits = (clientName) => {
+module.exports.incVisits = (clientName) => {
   return Clients.updateOne({name: clientName}, {$inc:{visits: 1}});
 }
 // incVisits('Tin').then(res=>console.log(res))
-
-module.exports.createClient = createClient;
