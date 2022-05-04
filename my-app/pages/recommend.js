@@ -5,19 +5,17 @@ import Random from './components/random.js'
 export default function Recommend({ randomDrink }) {
   const [isHidden, setIsHidden] = useState(true);
 
-  setTimeout(() => setIsHidden(false), 3000);
+  setTimeout(() => setIsHidden(false), 2500);
 
   return (
-    <>
       <div className={styles.recContainer}>
-    {!isHidden ? (
-        <div className={styles.centerContainer}>
-          <Random randomDrink={randomDrink}/>
+        {!isHidden ? (
+            <div className={styles.centerContainer}>
+              <Random randomDrink={randomDrink}/>
+          </div>
+          ) : null
+        }
       </div>
-      ) : null
-    } 
-      </div>
-    </>
   )
 }
 

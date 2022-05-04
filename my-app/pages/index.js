@@ -1,9 +1,35 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-
+import React, {useState, useEffect} from 'react'
 
 export default function Home() {
+
+  const [client, setClient] = useState('');
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      localStorage.setItem('client', `${e.target.value}`);
+      setClient(e.target.value);
+     fetch('http://localhost:3000/api/hello', {
+        method: 'POST',
+        body: JSON.stringify({client: `${e.target.value}`}),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    }
+  }
+  useEffect(() => {
+    localStorage.getItem('client') ? (setClient(localStorage.getItem('client'))) : null;
+  }, [client])
+
   return (
     <div className={styles.homeContainer}>
       <Head>
@@ -14,13 +40,16 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to Happy Hour
         </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+        {client ? <p className={styles.description}>Hello {client}, how can I help you</p> : (
+          <p className={styles.description}>
+            To whom am I speaking to? <input
+            placeholder="Enter Name Here"
+            onKeyDown={(event) => handleKeyDown(event)}
+            />
+          </p>
+        )}
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>

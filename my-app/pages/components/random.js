@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react'
 import Image from 'next/image'
 
 export default function Random({ randomDrink }) {
+
   return (
     <div  className={styles.container}>
       <Image className="styles.thumbnail"
@@ -10,6 +11,7 @@ export default function Random({ randomDrink }) {
         alt="picture of cocktail drink"
         height='150px'
         width='100px'
+        priority={randomDrink.idDrink}
       />
       <div className={styles.containerContent}>
         <h3>{randomDrink.strDrink}</h3>
@@ -19,10 +21,10 @@ export default function Random({ randomDrink }) {
           return keys.includes('Ingredient')
         }).map(ingredient => {
           return <span key={ingredient}>
-          <span>{
-          `${randomDrink[ingredient]}: ${randomDrink[`strMeasure${ingredient.replace('strIngredient','')}`]}`}
+            <span>{
+            `${randomDrink[ingredient]}: ${randomDrink[`strMeasure${ingredient.replace('strIngredient','')}`]}`}
+            </span>
           </span>
-        </span>
         })}
       </div>
     </div>
