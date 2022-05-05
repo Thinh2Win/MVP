@@ -1,6 +1,7 @@
 import styles from './../styles/Home.module.css'
 import React, {useState, useEffect} from 'react'
 import Random from './components/random.js'
+import Link from 'next/link'
 
 export default function Recommend({ randomDrink }) {
   const [isHidden, setIsHidden] = useState(true);
@@ -38,6 +39,9 @@ export default function Recommend({ randomDrink }) {
         {!isHidden ? (
             <div className={styles.centerContainer}>
               <Random randomDrink={randomDrink}/>
+              <a href='http://localhost:3000'>
+                <h2 style={{color: 'white'}}>Return</h2>
+              </a>
           </div>
           ) : null
         }
